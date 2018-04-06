@@ -23,6 +23,7 @@ import java.util.List;
 public class CrimeListFragment extends Fragment {
     private RecyclerView mCrimeRecyclerView;
     private CrimeAdapter mAdapter;
+    private int position;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -32,24 +33,31 @@ public class CrimeListFragment extends Fragment {
                 .findViewById(R.id.crime_recycler_view);
         mCrimeRecyclerView.setLayoutManager(new LinearLayoutManager
                 (getActivity()));
-        updateUI();
+        updateUI(null);
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        updateUI();
+        updateUI(null);
     }
 
-    private void updateUI() {
+    private void updateUI(int position) {
         CrimeLab crimeLab = CrimeLab.get(getActivity());
         List<Crime> crimes = crimeLab.getCrimes();
         if (mAdapter == null) {
         mAdapter = new CrimeAdapter(crimes);
         mCrimeRecyclerView.setAdapter(mAdapter);
         } else {
-            mAdapter.notifyDataSetChanged();
+
+//            if(null == position){
+//                mAdapter.notifyDataSetChanged();
+//            }
+//            //
+//            else {
+                mAdapter.notifyItemChanged(position);
+//            }
         }
     }
 
@@ -84,35 +92,37 @@ public class CrimeListFragment extends Fragment {
             }
 
         }
-        private class CrimeHolder2 extends RecyclerView.ViewHolder implements View.OnClickListener{
-            private Crime mCrime;
-            private TextView mTitleTextView;
-            private TextView mDateTextView;
-            private ImageView mSolvedImageView;
-            public CrimeHolder2( LayoutInflater inflater, ViewGroup parent ) {
-                super( inflater.inflate( R.layout.list_item_crime, parent, false ) );
-                itemView.setOnClickListener(this);
-                mTitleTextView = (TextView) itemView.findViewById( R.id.crime_title );
-                mDateTextView = (TextView) itemView.findViewById( R.id.crime_date );
-                mSolvedImageView = (ImageView) itemView.findViewById(R.id.crime_solved);
-            }
 
-            public void bind(Crime crime) {
-                mCrime = crime;
-                mTitleTextView.setText( mCrime.getTitle() );
-                mDateTextView.setText( mCrime.getDate().toString() );
-                mSolvedImageView.setVisibility(View.GONE);//(crime.isSolved() ? View.VISIBLE :
-                       // View.INVISIBLE);
 
-            }
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getActivity(),
-                        mCrime.getTitle() + " clicked1!", Toast.LENGTH_SHORT)
-                        .show();
-            }
-
-        }
+//        private class CrimeHolder2 extends RecyclerView.ViewHolder implements View.OnClickListener{
+//            private Crime mCrime;
+//            private TextView mTitleTextView;
+//            private TextView mDateTextView;
+//            private ImageView mSolvedImageView;
+//            public CrimeHolder2( LayoutInflater inflater, ViewGroup parent ) {
+//                super( inflater.inflate( R.layout.list_item_crime, parent, false ) );
+//                itemView.setOnClickListener(this);
+//                mTitleTextView = (TextView) itemView.findViewById( R.id.crime_title );
+//                mDateTextView = (TextView) itemView.findViewById( R.id.crime_date );
+//                mSolvedImageView = (ImageView) itemView.findViewById(R.id.crime_solved);
+//            }
+//
+//            public void bind(Crime crime) {
+//                mCrime = crime;
+//                mTitleTextView.setText( mCrime.getTitle() );
+//                mDateTextView.setText( mCrime.getDate().toString() );
+//                mSolvedImageView.setVisibility(View.GONE);//(crime.isSolved() ? View.VISIBLE :
+//                       // View.INVISIBLE);
+//
+//            }
+//            @Override
+//            public void onClick(View view) {
+//                Toast.makeText(getActivity(),
+//                        mCrime.getTitle() + " clicked1!", Toast.LENGTH_SHORT)
+//                        .show();
+//            }
+//
+//        }
 
 //        private class CrimeHolder1 extends  CrimeHolder{
 //
