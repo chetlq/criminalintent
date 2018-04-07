@@ -33,17 +33,17 @@ public class CrimeListFragment extends Fragment {
                 .findViewById(R.id.crime_recycler_view);
         mCrimeRecyclerView.setLayoutManager(new LinearLayoutManager
                 (getActivity()));
-        updateUI(null);
+        updateUI();
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        updateUI(null);
+        updateUI();
     }
 
-    private void updateUI(int position) {
+    private void updateUI( ) {
         CrimeLab crimeLab = CrimeLab.get(getActivity());
         List<Crime> crimes = crimeLab.getCrimes();
         if (mAdapter == null) {
@@ -52,11 +52,11 @@ public class CrimeListFragment extends Fragment {
         } else {
 
 //            if(null == position){
-//                mAdapter.notifyDataSetChanged();
+                mAdapter.notifyDataSetChanged();
 //            }
 //            //
 //            else {
-                mAdapter.notifyItemChanged(position);
+//                mAdapter.notifyItemChanged(position);
 //            }
         }
     }
@@ -64,6 +64,11 @@ public class CrimeListFragment extends Fragment {
 
 
     private class CrimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+        private List<Crime> mCrimes;
+        public CrimeAdapter(List<Crime> crimes) {
+            mCrimes = crimes;
+        }
 
         private class CrimeHolder1 extends RecyclerView.ViewHolder implements View.OnClickListener{
             private Crime mCrime;
@@ -156,15 +161,12 @@ public class CrimeListFragment extends Fragment {
 //
 //        }
 
-        private List<Crime> mCrimes;
-        public CrimeAdapter(List<Crime> crimes) {
-            mCrimes = crimes;
-        }
+
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from( getActivity() );
-            View inflate = layoutInflater.inflate( R.layout.list_item_crime, parent, false );
+//            View inflate = layoutInflater.inflate( R.layout.list_item_crime, parent, false );
             switch (viewType) {
 //            case 0:
 //            return new CrimeHolder1( layoutInflater, parent );
