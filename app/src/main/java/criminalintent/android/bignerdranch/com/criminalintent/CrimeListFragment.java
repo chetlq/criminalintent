@@ -40,8 +40,10 @@ public class CrimeListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        updateUI();
+
     }
+
+
 
     private void updateUI( ) {
         CrimeLab crimeLab = CrimeLab.get(getActivity());
@@ -50,18 +52,13 @@ public class CrimeListFragment extends Fragment {
         mAdapter = new CrimeAdapter(crimes);
         mCrimeRecyclerView.setAdapter(mAdapter);
         } else {
-
-//            if(null == position){
                 mAdapter.notifyDataSetChanged();
-//            }
-//            //
-//            else {
-//                mAdapter.notifyItemChanged(position);
-//            }
         }
     }
 
-
+//    private void updateUI2(int position ) {
+//        mAdapter.notifyItemChanged(position);
+//    }
 
     private class CrimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -97,70 +94,6 @@ public class CrimeListFragment extends Fragment {
             }
 
         }
-
-
-//        private class CrimeHolder2 extends RecyclerView.ViewHolder implements View.OnClickListener{
-//            private Crime mCrime;
-//            private TextView mTitleTextView;
-//            private TextView mDateTextView;
-//            private ImageView mSolvedImageView;
-//            public CrimeHolder2( LayoutInflater inflater, ViewGroup parent ) {
-//                super( inflater.inflate( R.layout.list_item_crime, parent, false ) );
-//                itemView.setOnClickListener(this);
-//                mTitleTextView = (TextView) itemView.findViewById( R.id.crime_title );
-//                mDateTextView = (TextView) itemView.findViewById( R.id.crime_date );
-//                mSolvedImageView = (ImageView) itemView.findViewById(R.id.crime_solved);
-//            }
-//
-//            public void bind(Crime crime) {
-//                mCrime = crime;
-//                mTitleTextView.setText( mCrime.getTitle() );
-//                mDateTextView.setText( mCrime.getDate().toString() );
-//                mSolvedImageView.setVisibility(View.GONE);//(crime.isSolved() ? View.VISIBLE :
-//                       // View.INVISIBLE);
-//
-//            }
-//            @Override
-//            public void onClick(View view) {
-//                Toast.makeText(getActivity(),
-//                        mCrime.getTitle() + " clicked1!", Toast.LENGTH_SHORT)
-//                        .show();
-//            }
-//
-//        }
-
-//        private class CrimeHolder1 extends  CrimeHolder{
-//
-//
-//            public CrimeHolder1(LayoutInflater inflater, ViewGroup parent ) {
-//                super( inflater, parent);
-//            }
-//
-//            @Override
-//            public void onClick(View view) {
-//                Toast.makeText(getActivity(),
-//                        mCrime.getTitle() + " clicked1!", Toast.LENGTH_SHORT)
-//                        .show();
-//            }
-//
-//        }
-//        private class CrimeHolder2 extends RecyclerView.ViewHolder {
-//            private Crime mCrime;
-//            private TextView mTitleTextView;
-//            private TextView mDateTextView;
-//
-//            public CrimeHolder2(View itemView) {
-//                super( itemView );
-//
-//            }
-//            public void bind(Crime crime) {
-//                mCrime = crime;
-//                mTitleTextView.setText( mCrime.getTitle() );
-//                mDateTextView.setText( mCrime.getDate().toString() );
-//            }
-//
-//        }
-
 
 
         @Override
