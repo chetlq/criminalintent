@@ -46,6 +46,27 @@ public class Crime {
         this.mSolved = mSolved;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Crime))
+            return false;
+        if (obj == null)
+            return false;
+        Crime entry = (Crime)obj;
+        return mId.equals(entry.mId) &&
+                mTitle.equals(entry.mTitle) &&
+                mDate.equals(entry.mDate) &&
+                mSolved == entry.mSolved ;
+    }
 
+    @Override
+    public int hashCode() {
+        int hash = 31;
+        hash = hash*17 + mId.hashCode();
+        hash = hash*17 + mTitle.hashCode();
+        hash = hash*17 + mDate.hashCode();
+        hash = hash*17 + (mSolved?1:0);
+        return hash;
+    }
 }
 

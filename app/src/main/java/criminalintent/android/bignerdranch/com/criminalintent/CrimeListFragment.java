@@ -4,6 +4,7 @@ package criminalintent.android.bignerdranch.com.criminalintent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -40,7 +41,11 @@ public class CrimeListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        updateUI();
+        CrimeLab crimeLab = CrimeLab.get(getActivity());
+        List<Crime> crimes = crimeLab.getCrimes();
+        if (mAdapter != null) {
+            mAdapter.updateList( crimes );
+        }
 
     }
 
@@ -58,6 +63,8 @@ public class CrimeListFragment extends Fragment {
     }
 
 //    private void updateUI2(int position ) {
+//        //CrimeDiffutilCallback crimeDiffutilCallback = new CrimeDiffutilCallback(mAdapter. )
+//
 //        mAdapter.notifyItemChanged(position);
 //    }
 
@@ -68,12 +75,12 @@ public class CrimeListFragment extends Fragment {
             mCrimes = crimes;
         }
 
-        private class CrimeHolder1 extends RecyclerView.ViewHolder implements View.OnClickListener{
+        private class CrimeHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
             private Crime mCrime;
             private TextView mTitleTextView;
             private TextView mDateTextView;
             private ImageView mSolvedImageView;
-            public CrimeHolder1( LayoutInflater inflater, ViewGroup parent ) {
+            public CrimeHolder( LayoutInflater inflater, ViewGroup parent ) {
                 super( inflater.inflate( R.layout.list_item_crime, parent, false ) );
                 itemView.setOnClickListener(this);
                 mTitleTextView = (TextView) itemView.findViewById( R.id.crime_title );
@@ -100,16 +107,11 @@ public class CrimeListFragment extends Fragment {
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from( getActivity() );
-//            View inflate = layoutInflater.inflate( R.layout.list_item_crime, parent, false );
-            switch (viewType) {
-//            case 0:
-//            return new CrimeHolder1( layoutInflater, parent );
-//            case 2:
-//            return new CrimeHolder2( inflate );
-//            default:return null;
-                default: return new CrimeHolder1( layoutInflater, parent );
-        }
 
+            switch (viewType) {
+
+                default: return new CrimeHolder( layoutInflater, parent );
+            }
 
         }
 
@@ -119,20 +121,10 @@ public class CrimeListFragment extends Fragment {
             Crime crime = mCrimes.get(position);
             switch (holder.getItemViewType()) {
                 default:
-                    CrimeHolder1 viewHolder1 = (CrimeHolder1)holder;
-
+                    CrimeHolder viewHolder1 = (CrimeHolder)holder;
                     viewHolder1.bind( crime );
-
                     break;
-//
-//                case 2:
-//                    CrimeHolder2 viewHolder2 = (CrimeHolder2)holder;
-//
-//                    viewHolder2.bind( crime );
-//                    break;
             }
-//            Crime crime = mCrimes.get(position);
-//            holder.bind(crime);
 
         }
 
@@ -144,6 +136,12 @@ public class CrimeListFragment extends Fragment {
         @Override
         public int getItemViewType(int position) {
             return position % 2;
+        }
+
+
+        public void updateList(List<Crime> newCrimes) {
+            DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new CrimeDiffutilCallback(this.mCrimes, newCrimes));
+            diffResult.dispatchUpdatesTo(this);
         }
     }
 }
