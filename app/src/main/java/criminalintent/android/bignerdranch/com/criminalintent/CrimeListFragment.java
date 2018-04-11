@@ -25,6 +25,7 @@ public class CrimeListFragment extends Fragment {
     private RecyclerView mCrimeRecyclerView;
     private CrimeAdapter mAdapter;
     private int position;
+    private static final String TAG = "MyActivity";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -35,15 +36,18 @@ public class CrimeListFragment extends Fragment {
         mCrimeRecyclerView.setLayoutManager(new LinearLayoutManager
                 (getActivity()));
         updateUI();
+        Log.i(TAG, "start" );
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        CrimeLab crimeLab = CrimeLab.get(getActivity());
-        List<Crime> crimes = crimeLab.getCrimes();
+        Log.i(TAG, "index=" + 1);
         if (mAdapter != null) {
+            Log.i(TAG, "index=" + 2);
+            CrimeLab crimeLab = CrimeLab.get(getActivity());
+            List<Crime> crimes = crimeLab.getCrimes();
             mAdapter.updateList( crimes );
         }
 
@@ -139,8 +143,8 @@ public class CrimeListFragment extends Fragment {
         }
 
 
-        public void updateList(List<Crime> newCrimes) {
-            DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new CrimeDiffutilCallback(this.mCrimes, newCrimes));
+        public void updateList(final List<Crime> newCrimes) {
+            final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new CrimeDiffutilCallback(mCrimes, newCrimes));
             diffResult.dispatchUpdatesTo(this);
         }
     }
