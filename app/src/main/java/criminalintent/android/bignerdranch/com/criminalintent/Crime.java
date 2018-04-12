@@ -7,7 +7,7 @@ import java.util.UUID;
  * Created by admin on 25.02.2018.
  */
 
-public class Crime {
+public class Crime implements Cloneable {
     private UUID mId;
     private String mTitle;
     private Date mDate;
@@ -68,5 +68,10 @@ public class Crime {
         hash = hash*17 + (mSolved?1:0);
         return hash;
     }
+    public Crime clone() throws CloneNotSupportedException {
+        return (Crime)super.clone();
+    }
+
+
 }
 

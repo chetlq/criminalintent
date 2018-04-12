@@ -30,15 +30,19 @@ public class CrimeDiffutilCallback extends DiffUtil.Callback {
 
     @Override
     public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
+        boolean bool;
         Crime oldCrime = oldCrimes.get(oldItemPosition);
         Crime newCrime = newCrimes.get(newItemPosition);
-        return oldCrime.getId() == newCrime.getId();
+        bool =  oldCrime.getId() == newCrime.getId();
+        return bool;
     }
 
     @Override
     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
+        boolean bool;
         Crime oldCrime = oldCrimes.get(oldItemPosition);
         Crime newCrime = newCrimes.get(newItemPosition);
-        return oldCrime.equals( newCrime ) ;
+        bool =  oldCrime.equals( newCrime ) ;
+        return bool;
     }
 }

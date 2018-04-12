@@ -2,7 +2,9 @@ package criminalintent.android.bignerdranch.com.criminalintent;
 
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -26,6 +30,8 @@ public class CrimeListFragment extends Fragment {
     private CrimeAdapter mAdapter;
     private int position;
     private static final String TAG = "MyActivity";
+    private static List<Crime> mCrimesCopy;
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -44,20 +50,22 @@ public class CrimeListFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Log.i(TAG, "index=" + 1);
-        if (mAdapter != null) {
-            Log.i(TAG, "index=" + 2);
+
+//            Log.i(TAG, "index=" + 2);
             CrimeLab crimeLab = CrimeLab.get(getActivity());
             List<Crime> crimes = crimeLab.getCrimes();
+            //mAdapter.notifyItemChanged( 0 );
             mAdapter.updateList( crimes );
-        }
+
 
     }
 
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void updateUI( ) {
         CrimeLab crimeLab = CrimeLab.get(getActivity());
-        List<Crime> crimes = crimeLab.getCrimes();
+        List<Crime> crimes = crimeLab.getCloneCrimes();
         if (mAdapter == null) {
         mAdapter = new CrimeAdapter(crimes);
         mCrimeRecyclerView.setAdapter(mAdapter);
@@ -74,10 +82,8 @@ public class CrimeListFragment extends Fragment {
 
     private class CrimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-        private List<Crime> mCrimes;
-        public CrimeAdapter(List<Crime> crimes) {
-            mCrimes = crimes;
-        }
+        private final List<Crime> mCrimes;
+        public CrimeAdapter(List<Crime> crimes) {mCrimes = new ArrayList<Crime>(crimes  ) ;}
 
         private class CrimeHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
             private Crime mCrime;
@@ -101,6 +107,14 @@ public class CrimeListFragment extends Fragment {
             }
             @Override
             public void onClick(View view) {
+//                if (mCrimesCopy == null) {
+//                    CrimeLab crimeLab3 = CrimeLab.get(getActivity());
+//                    mCrimesCopy = new ArrayList <Crime>(crimeLab3.getCrimes2());
+//
+//
+//                }
+//                boolean bool = mCrimesCopy.equals( mCrimes );
+
                 Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getId());
                 startActivity(intent);
             }
@@ -145,7 +159,7 @@ public class CrimeListFragment extends Fragment {
 
         public void updateList(final List<Crime> newCrimes) {
             final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new CrimeDiffutilCallback(mCrimes, newCrimes));
-            diffResult.dispatchUpdatesTo(this);
+            diffResult.dispatchUpdatesTo(this  );
         }
     }
 }
