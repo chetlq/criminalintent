@@ -82,7 +82,7 @@ public class CrimeListFragment extends Fragment {
 
     private class CrimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-        private final List<Crime> mCrimes;
+        private  List<Crime> mCrimes;
         public CrimeAdapter(List<Crime> crimes) {mCrimes = new ArrayList<Crime>(crimes  ) ;}
 
         private class CrimeHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -159,6 +159,7 @@ public class CrimeListFragment extends Fragment {
 
         public void updateList(final List<Crime> newCrimes) {
             final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new CrimeDiffutilCallback(mCrimes, newCrimes));
+            mCrimes = newCrimes;
             diffResult.dispatchUpdatesTo(this  );
         }
     }
