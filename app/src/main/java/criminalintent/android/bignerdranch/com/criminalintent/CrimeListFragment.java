@@ -157,9 +157,16 @@ public class CrimeListFragment extends Fragment {
         }
 
 
+        @RequiresApi(api = Build.VERSION_CODES.N)
         public void updateList(final List<Crime> newCrimes) {
             final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new CrimeDiffutilCallback(mCrimes, newCrimes));
-            mCrimes = newCrimes;
+            mCrimes.clear();
+            newCrimes.forEach( (value) -> {
+                try {
+                    mCrimes.add( value.clone() );
+                } catch (CloneNotSupportedException e) {
+                    e.printStackTrace();
+                } } );
             diffResult.dispatchUpdatesTo(this  );
         }
     }
