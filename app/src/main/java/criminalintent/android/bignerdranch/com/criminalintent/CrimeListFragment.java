@@ -28,9 +28,9 @@ import java.util.List;
 public class CrimeListFragment extends Fragment {
     private RecyclerView mCrimeRecyclerView;
     private CrimeAdapter mAdapter;
-    private int position;
     private static final String TAG = "MyActivity";
     private static List<Crime> mCrimesCopy;
+    protected  Integer mypos;
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,16 +46,21 @@ public class CrimeListFragment extends Fragment {
         return view;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onResume() {
         super.onResume();
-        Log.i(TAG, "index=" + 1);
-
-//            Log.i(TAG, "index=" + 2);
+        Log.i(TAG, "onResume=");
+        //mAdapter.notifyItemChanged(1);
+        //if (mAdapter != null)
+//        mAdapter.notifyDataSetChanged();
             CrimeLab crimeLab = CrimeLab.get(getActivity());
             List<Crime> crimes = crimeLab.getCrimes();
-            //mAdapter.notifyItemChanged( 0 );
-            mAdapter.updateList( crimes );
+            if(null != mypos) {
+                mAdapter.notifyItemChanged( mypos.intValue() );
+                mypos=null;
+            }
+//            mAdapter.updateList( crimes );
 
 
     }
@@ -65,7 +70,7 @@ public class CrimeListFragment extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void updateUI( ) {
         CrimeLab crimeLab = CrimeLab.get(getActivity());
-        List<Crime> crimes = crimeLab.getCloneCrimes();
+        List<Crime> crimes = crimeLab.getCrimes();//crimeLab.getCloneCrimes();
         if (mAdapter == null) {
         mAdapter = new CrimeAdapter(crimes);
         mCrimeRecyclerView.setAdapter(mAdapter);
@@ -114,6 +119,8 @@ public class CrimeListFragment extends Fragment {
 //
 //                }
 //                boolean bool = mCrimesCopy.equals( mCrimes );
+                mypos =  this.getPosition();
+                Log.i( TAG, String.valueOf( this.getPosition() ) );
 
                 Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getId());
                 startActivity(intent);
