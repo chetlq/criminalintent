@@ -119,10 +119,11 @@ public class CrimeListFragment extends Fragment {
 //
 //                }
 //                boolean bool = mCrimesCopy.equals( mCrimes );
-                mypos =  this.getPosition();
-                Log.i( TAG, String.valueOf( this.getPosition() ) );
+//                mypos =  this.getPosition();
+//                Log.i( TAG, String.valueOf( this.getPosition() ) );
 
-                Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getId());
+//                Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getId());
+                Intent intent = CrimePagerActivity.newIntent(getActivity(), mCrime.getId());
                 startActivity(intent);
             }
 
