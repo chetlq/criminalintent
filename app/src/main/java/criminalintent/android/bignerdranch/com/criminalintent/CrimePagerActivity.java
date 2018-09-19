@@ -32,7 +32,7 @@ public class CrimePagerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crime_pager);
 
-
+        Context context = this.getApplicationContext();
 
         mViewPager = (ViewPager) findViewById(R.id.crime_view_pager);
         UUID crimeId = (UUID) getIntent()
